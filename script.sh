@@ -86,7 +86,7 @@ stop_spinner $?
 printf "\n"
 start_spinner "Installing PHP..."
 echo "Executant apt-get install php..." >> /var/log/gerardscript.log
-apt-get install -y php5 php5-json php5-dev unzip &>> /var/log/gerardscript.log
+apt-get install -y php5 php5-json php5-dev unzip php5-curl &>> /var/log/gerardscript.log
 stop_spinner $?
 printf "\n"
 start_spinner "Creating folders..."
