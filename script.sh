@@ -212,7 +212,7 @@ sleep 1
 printf "\n"
 start_spinner 'Setting the web updaters...'
 echo "Setting the web updaters..." >> /var/log/gerardscript.log
-printf '<?php\nif(count($_GET)) {\necho "<script>";\necho "var conn = new WebSocket(\"ws://localhost:8080\");";\necho "conn.onopen = function(e) {";\necho "var vars = {};";\necho    "var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,";\necho    "function(m,key,value) {";\necho     "vars[key] = value; });";\necho     "var send = JSON.stringify(vars);";\necho    "console.log(send);";\necho    "conn.send(send);";\necho    "conn.close;";\necho "};";\necho "</script>";\n}\n?>' > /var/www/html/update.php
+printf '<?php\nif(count($_GET)) {\necho "<script>";\necho "var conn = new WebSocket(\\"ws://localhost:8080\\");";\necho "conn.onopen = function(e) {";\necho "var vars = {};";\necho    "var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,";\necho    "function(m,key,value) {";\necho     "vars[key] = value; });";\necho     "var send = JSON.stringify(vars);";\necho    "console.log(send);";\necho    "conn.send(send);";\necho    "conn.close;";\necho "};";\necho "</script>";\n}\n?>' > /var/www/html/update.php
 printf '<?php\n$connecting_as = $_SERVER["REMOTE-ADDR"];\n$accepted = array(\n	"10.19.250.10",\n	"10.19.250.20",\n	"10.19.250.30",\n	"10.19.250.40",\n	"10.19.250.50"\n)\nif(in_array($connecting_as, $accepted))\n{\n	if(count($_GET))\n	{\n		$query = $_SERVER[QUERY_STRING];\n		$curl = curl_init();\n		$url_final = "http://localhost/private.php?" . $query;\n		curl_setopt($curl, CURLOPT_URL, $url_final);\n		$output = curl_exec($curl);\n		curl_close($curl);\n	}\n}\n?>\n\n' > /var/www/html/private.php
 stop_spinner $?
 sleep 1
