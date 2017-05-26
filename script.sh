@@ -211,3 +211,9 @@ start_spinner 'Modifying permissions...'
 echo "Modifying permissions..." >> /var/log/gerardscript.log
 chmod 755 -R /odt/ratchet
 stop_spinner $?
+
+printf "\n\n\n\n\n\n"
+echo "COMPUTER WILL RESTART AFTER 30 SEC. <CTRL + C> TO CANCEL"
+sleep 30
+init 6
+
