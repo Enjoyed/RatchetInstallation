@@ -200,7 +200,7 @@ sleep 1
 printf "\n"
 start_spinner 'Making run on startup...'
 echo "Making run on startup..." >> /var/log/gerardscript.log
-sed "/  start)/!{p;d;};n;n;a php -q /odt/ratchet/bin/server.php &" /etc/init.d/apache2
+sed -i.bak "/  start)/!{p;d;};n;n;a php -q /odt/ratchet/bin/server.php &" /etc/init.d/apache2
 stop_spinner $?
 sleep 1
 printf "\n"
