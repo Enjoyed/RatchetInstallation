@@ -6,7 +6,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 wget -q --tries=10 --timeout=20 --spider http://google.com
 if [[ $? -eq 0 ]]; then
-        printf "CHECKS... OK";
+        printf "CHECKS... OK\n";
 else
         echo "Need internet access to run this scrint" 1>&2
         exit 1
