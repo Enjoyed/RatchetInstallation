@@ -593,6 +593,12 @@
 		</div>
 	<script>
 	var conn = new WebSocket("ws://10.19.250.1:8080");
+	setTimeout(function () {
+            if (conn.readyState != 1) {
+                alert("Cannot connect to WebSocket Service. Call the system admin.\nNOTE: Nothing you do in this webpage will work.");
+            }
+        }, 2000);
+
 	conn.onopen = function(e) {
 		console.log("Connection established!");
 	};
