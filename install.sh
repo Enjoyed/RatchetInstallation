@@ -38,7 +38,7 @@ sleep 3
 
 echo "Executant apt-get update..." >> /var/log/gerardscript.log
 ebegin "Updating your system..."
-apt-get update >> /var/log/gerardscript.log
+apt-get update &>> /var/log/gerardscript.log
 eend $?
 
 echo "Installing apache2..." >> /var/log/gerardscript.log
@@ -84,7 +84,7 @@ eend $?
 ebegin "Downloading ProjectCode (source files)..."
 cd /opt/websocket
 echo "Downloading ProjectCode (source files)..." >> /var/log/gerardscript.log
-git clone https://github.com/Enjoyed/RatchetInstallation /tmp/RatchetInstallation >> /var/log/gerardscript.log
+git clone https://github.com/Enjoyed/RatchetInstallation /tmp/RatchetInstallation &>> /var/log/gerardscript.log
 eend $?
 
 einfo "Installing composer..."
@@ -147,8 +147,8 @@ eend $?
 echo "Installing websocket client..." >> /var/log/gerardscript.log
 ebegin "Installing websocket client..."
 cd /opt/websocket
-npm install -g node-gyp >> /var/log/gerardscript.log
-npm install websocket >> /var/log/gerardscript.log
+npm install -g node-gyp &>> /var/log/gerardscript.log
+npm install websocket &>> /var/log/gerardscript.log
 eend $?
 
 echo "Downloading bootstrap..." >> /var/log/gerardscript.log
