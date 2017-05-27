@@ -22,10 +22,10 @@ if hash git 2>/dev/null; then
 else
 	apt-get install git
 fi
-
-git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions > /var/log/gerardscript.log
+git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions >> /var/log/gerardscript.log
 cd /opt/efunctions
 ./install.sh > /dev/null
+. /etc/init.d/functions.sh
 rm -rf /opt/efunctions
 printf '[\e[1;32mDONE\e[0m]\n'
 
