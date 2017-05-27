@@ -48,7 +48,7 @@ class Chat implements MessageComponentInterface {
 		{
 			echo sprintf("Updating values to %d client%s" . "\n"
 			,$numRecv, $numRecv == 1 ? "" : "s");
-			$array = json_decode($msg);
+			$array = json_decode($msg,true);
 			if(!isset($array["incoming"]))
 			{
 				foreach($array as $sensor => $valor) {
@@ -58,19 +58,39 @@ class Chat implements MessageComponentInterface {
 					$curl = curl_init();
 					curl_reset($curl);
 					curl_setopt($curl, CURLOPT_URL, $url_final);
+                                        curl_setopt($curl, CURLOPT_TIMEOUT, 2);
+                                        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2);
 					$data = curl_exec($curl);
 					if ($data === FALSE) 
 					{
 						echo "Curl failed: " . curl_error($curl);
+						$doit = false;
+					}
+					else
+					{
+						$doit = true;
 					}
 					curl_close($curl);
 				}
-				$send = json_encode($GLOBALS["values"]);
-				foreach ($this->clients as $client) 
-				{
-					if ($conn !== $client) 
+				if($doit){
+					$send = json_encode($GLOBALS["values"]);
+					foreach ($this->clients as $client) 
 					{
-						$client->send($send);
+						if ($conn !== $client) 
+						{
+							$client->send($send);
+						}
+					}
+				}
+				else
+				{
+					$send = json_encode($GLOBALS["values"]);
+					foreach ($this->clients as $client) 
+					{
+						if ($conn == $client) 
+						{
+							$client->send($send);
+						}
 					}
 				}
 			}
