@@ -49,7 +49,7 @@ class Chat implements MessageComponentInterface {
 			echo sprintf("Updating values to %d client%s" . "\n"
 			,$numRecv, $numRecv == 1 ? "" : "s");
 			$array = json_decode($msg);
-			if(!isset(array["incoming"]))
+			if(!isset($array["incoming"]))
 			{
 				foreach($array as $sensor => $valor) {
 					$GLOBALS["values"][$sensor] = $valor;
