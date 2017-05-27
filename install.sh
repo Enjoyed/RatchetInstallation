@@ -6,10 +6,9 @@ ScriptLoc=$(readlink -f "$0")
 chmod ugo+x "$ScriptLoc"
 fi
 
-PWD=$(pwd)
 touch /var/log/gerardscript.log
-echo "Initializing Gerard Script (domotica project) by Gerard Fleque"
-echo "Log -> /var/log/gerardscript.log"
+printf "\n\nInitializing Gerard Script (domotica project) by Gerard Fleque"
+echo "Log -> /var/log/gerardscript.log\n\n"
 
 printf 'CHECKS... '
 if [ "$(id -u)" != "0" ]; then
@@ -27,7 +26,6 @@ printf '[\e[1;32mDONE\e[0m]\n'
 
 
 if [ ! -f "/etc/init.d/functions.sh" ]; then
-	printf 'Installing cool functions (eFunctions)... '
 	git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions &>> /var/log/gerardscript.log
 	cd /opt/efunctions
 	./install.sh &>> /var/log/gerardscript.log
@@ -44,17 +42,17 @@ eend $?
 
 echo "Installing apache2..." >> /var/log/gerardscript.log
 ebegin "Installing apache2..."
-apt-get install -y apache2 apache2-utils >> /var/log/gerardscript.log
+apt-get install -y apache2 apache2-utils &>> /var/log/gerardscript.log
 eend $?
 
 echo "Installing PHP..." >> /var/log/gerardscript.log
 ebegin "Installing PHP..."
-apt-get install -y php5 php5-json php5-dev php5-curl >> /var/log/gerardscript.log
+apt-get install -y php5 php5-json php5-dev php5-curl &>> /var/log/gerardscript.log
 eend $?
 
 echo "Installing other necessary packets..." >> /var/log/gerardscript.log
 ebegin "Installing other necessary packets..."
-apt-get install -y nodejs npm >> /var/log/gerardscript.log
+apt-get install -y nodejs npm &>> /var/log/gerardscript.log
 eend $?
 
 echo "Creating folders..." >> /var/log/gerardscript.log
