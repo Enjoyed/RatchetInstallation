@@ -168,4 +168,3 @@ ebegin "Modifying permissions..."
 chmod 775 -R /opt/websocket
 chmod 775 -R /var/www/html/
 eend $?
-
