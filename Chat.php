@@ -44,27 +44,47 @@ class Chat implements MessageComponentInterface {
 	}
 	public function onMessage(ConnectionInterface $conn, $msg) {
 		$numRecv = count($this->clients) - 1;
-		if(isJson($msg)) {
+		if(isJson($msg)) 
+		{
 			echo sprintf("Updating values to %d client%s" . "\n"
 			,$numRecv, $numRecv == 1 ? "" : "s");
 			$array = json_decode($msg);
-			foreach($array as $sensor => $valor) {
-				$GLOBALS["values"][$sensor] = $valor;
-				$sendValor = explode("_",$msg);
-				$url_final = $GLOBALS["dispositius"][$sendValor[0]] . "/?" . $sensor . "=" . $valor;
-				$curl = curl_init();
-				curl_reset($curl);
-				curl_setopt($curl, CURLOPT_URL, $url_final);
-				$data = curl_exec($curl);
-				if ($data === FALSE) {
-					echo "Curl failed: " . curl_error($curl);
+			if(!isset(array["incoming"]))
+			{
+				foreach($array as $sensor => $valor) {
+					$GLOBALS["values"][$sensor] = $valor;
+					$sendValor = explode("_",$msg);
+					$url_final = $GLOBALS["dispositius"][$sendValor[0]] . "/?" . $sensor . "=" . $valor;
+					$curl = curl_init();
+					curl_reset($curl);
+					curl_setopt($curl, CURLOPT_URL, $url_final);
+					$data = curl_exec($curl);
+					if ($data === FALSE) 
+					{
+						echo "Curl failed: " . curl_error($curl);
+					}
+					curl_close($curl);
 				}
-				curl_close($curl);
+				$send = json_encode($GLOBALS["values"]);
+				foreach ($this->clients as $client) 
+				{
+					if ($conn !== $client) 
+					{
+						$client->send($send);
+					}
+				}
 			}
-			$send = json_encode($GLOBALS["values"]);
-			foreach ($this->clients as $client) {
-				if ($conn !== $client) {
-					$client->send($send);
+			else{
+				foreach($array as $sensor => $valor){
+					if($sensor !== "incoming"){
+						$GLOBALS["values"][$sensor] = $valor;
+					}
+				}
+				$send = json_encode($GLOBALS["values"]);
+				foreach ($this->clients as $client) {
+					if ($conn !== $client) {
+						$client->send($send);
+					}
 				}
 			}
 		}
