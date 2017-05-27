@@ -11,7 +11,7 @@ for(var i = 2;i < process.argv.length; i++){
     var pair = process.argv[i].split('=');
     values[pair[0]] = pair[1];
 }
-values["incoming"] = "true";
+values["incoming"] = true;
 var send = JSON.stringify(values);
 var client = new W3CWebSocket('ws://localhost:8080/');
 
