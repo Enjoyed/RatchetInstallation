@@ -52,7 +52,6 @@ class Chat implements MessageComponentInterface {
 			if(!isset($array["incoming"]))
 			{
 				foreach($array as $sensor => $valor) {
-					$GLOBALS["values"][$sensor] = $valor;
 					$sendValor = explode("_",$sensor);
 					$url_final = $GLOBALS["dispositius"][$sendValor[0]] . "/?" . $sensor . "=" . $valor;
 					$curl = curl_init();
@@ -64,34 +63,28 @@ class Chat implements MessageComponentInterface {
 					if ($data === FALSE) 
 					{
 						echo "Curl failed: " . curl_error($curl);
-						$doit = false;
+						$correct = "{\"" . $sensor . "\":" . $GLOBALS["values"][$sensor] . "}";
+						foreach ($this->clients as $client) 
+						{
+							if ($conn == $client) 
+							{
+								$client->send($correct);
+							}
+						}
 					}
 					else
 					{
-						$doit = true;
+						$GLOBALS["values"][$sensor] = $valor;
+						$send = "{\"" . $sensor . "\":" . $valor . "}";
+						foreach ($this->clients as $client) 
+						{
+							if ($conn !== $client) 
+							{
+								$client->send($send);
+							}
+						}
 					}
 					curl_close($curl);
-				}
-				if($doit){
-					$send = json_encode($GLOBALS["values"]);
-					foreach ($this->clients as $client) 
-					{
-						if ($conn !== $client) 
-						{
-							$client->send($send);
-						}
-					}
-				}
-				else
-				{
-					$send = json_encode($GLOBALS["values"]);
-					foreach ($this->clients as $client) 
-					{
-						if ($conn == $client) 
-						{
-							$client->send($send);
-						}
-					}
 				}
 			}
 			else{
