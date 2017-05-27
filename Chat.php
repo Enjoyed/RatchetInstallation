@@ -53,7 +53,7 @@ class Chat implements MessageComponentInterface {
 			{
 				foreach($array as $sensor => $valor) {
 					$GLOBALS["values"][$sensor] = $valor;
-					$sendValor = explode("_",$msg);
+					$sendValor = explode("_",$sensor);
 					$url_final = $GLOBALS["dispositius"][$sendValor[0]] . "/?" . $sensor . "=" . $valor;
 					$curl = curl_init();
 					curl_reset($curl);
