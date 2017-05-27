@@ -69,7 +69,6 @@ class Chat implements MessageComponentInterface {
 			}
 		}
 	}
-
 	public function onClose(ConnectionInterface $conn) {
 		$this->clients->detach($conn);
 		echo "Connection {$conn->resourceId} has disconnected\n";
