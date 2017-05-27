@@ -138,7 +138,7 @@ yes | cp -rf /tmp/RatchetInstallation/index.html /var/www/html/index.html
 yes | cp -rf /tmp/RatchetInstallation/custom.css /var/www/html/assets/css/custom.css
 yes | cp -rf /tmp/RatchetInstallation/updater.php /var/www/html/updater.php
 yes | cp -rf /tmp/RatchetInstallation/index.html /var/www/html/index.html
-sed -i.bak 's/10.19.250.1/$NEWIP/g' /var/www/html/index.html
+sed -i.bak "s/10.19.250.1/$NEWIP/g" /var/www/html/index.html
 eend $?
 
 echo "Updating composer..." >> /var/log/gerardscript.log
