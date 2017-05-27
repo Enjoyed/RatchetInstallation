@@ -29,12 +29,10 @@ fi
 
 if [ ! -f "/etc/init.d/functions.sh" ]; then
 	git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions >> /var/log/gerardscript.log
-	cd /opt/efunctions
-	./install.sh >> /var/log/gerardscript.log
+	./opt/efunctions/install.sh >> /var/log/gerardscript.log
 	rm -rf /opt/efunctions
 	ScriptLoc=$(readlink -f "$0")
-	chmod ugo+x $ScriptLoc
-	printf '[\e[1;32mDONE\e[0m]\n'
+	chmod ugo+x "$ScriptLoc"
 	exec "$ScriptLoc"
 fi
 
