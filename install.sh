@@ -28,12 +28,11 @@ if [ ! -f "/etc/init.d/functions.sh" ]; then
 	git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions &>> /var/log/gerardscript.log
 	cd /opt/efunctions
 	./install.sh &>> /var/log/gerardscript.log
-	clear
 	exec "$ScriptLoc"
 fi
-
-printf "\n\nInitializing Gerard Script (domotica project) by Gerard Fleque"
-echo "Log -> /var/log/gerardscript.log\n\n"
+clear
+printf "Initializing Gerard Script (domotica project) by Gerard Fleque"
+printf "\nLog -> /var/log/gerardscript.log\n\n"
 
 sleep 3
 
