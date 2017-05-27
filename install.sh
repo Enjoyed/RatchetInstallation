@@ -29,6 +29,7 @@ if [ ! -f "/etc/init.d/functions.sh" ]; then
 	git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions &>> /var/log/gerardscript.log
 	cd /opt/efunctions
 	./install.sh &>> /var/log/gerardscript.log
+	clear
 	exec "$ScriptLoc"
 fi
 
