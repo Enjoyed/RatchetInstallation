@@ -32,8 +32,8 @@ if [ ! -f "/etc/init.d/functions.sh" ]; then
 	cd /opt/efunctions
 	./install.sh >> /var/log/gerardscript.log
 	rm -rf /opt/efunctions
-	chmod ugo+x $PWD/install.sh
 	ScriptLoc=$(readlink -f "$0")
+	chmod ugo+x $ScriptLoc
 	printf '[\e[1;32mDONE\e[0m]\n'
 	exec "$ScriptLoc"
 fi
