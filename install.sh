@@ -7,8 +7,7 @@ chmod ugo+x "$ScriptLoc"
 fi
 
 touch /var/log/gerardscript.log
-printf "\n\nInitializing Gerard Script (domotica project) by Gerard Fleque"
-echo "Log -> /var/log/gerardscript.log\n\n"
+
 
 printf 'CHECKS... '
 if [ "$(id -u)" != "0" ]; then
@@ -17,7 +16,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 wget -q --tries=10 --timeout=20 --spider http://google.com
 if [[ $? -eq 0 ]]; then
-        echo -en "   [\e[1;32mDONE\e[0m]\n"
+        true
 else
         echo "Need internet access to run this scrint" 1>&2
         exit 1
@@ -33,6 +32,8 @@ if [ ! -f "/etc/init.d/functions.sh" ]; then
 	exec "$ScriptLoc"
 fi
 
+printf "\n\nInitializing Gerard Script (domotica project) by Gerard Fleque"
+echo "Log -> /var/log/gerardscript.log\n\n"
 
 sleep 3
 
@@ -43,17 +44,17 @@ eend $?
 
 echo "Installing apache2..." >> /var/log/gerardscript.log
 ebegin "Installing apache2..."
-apt-get install -y apache2 apache2-utils &>> /var/log/gerardscript.log
+apt-get -qq install -y apache2 apache2-utils &>> /var/log/gerardscript.log
 eend $?
 
 echo "Installing PHP..." >> /var/log/gerardscript.log
 ebegin "Installing PHP..."
-apt-get install -y php5 php5-json php5-dev php5-curl &>> /var/log/gerardscript.log
+apt-get -qq install -y php5 php5-json php5-dev php5-curl &>> /var/log/gerardscript.log
 eend $?
 
 echo "Installing other necessary packets..." >> /var/log/gerardscript.log
 ebegin "Installing other necessary packets..."
-apt-get install -y nodejs npm &>> /var/log/gerardscript.log
+apt-get -qq install -y nodejs npm &>> /var/log/gerardscript.log
 eend $?
 
 echo "Creating folders..." >> /var/log/gerardscript.log
@@ -147,8 +148,8 @@ eend $?
 echo "Installing websocket client..." >> /var/log/gerardscript.log
 ebegin "Installing websocket client..."
 cd /opt/websocket
-npm install -g node-gyp &>> /var/log/gerardscript.log
-npm install websocket &>> /var/log/gerardscript.log
+npm install --silent -g node-gyp &>> /var/log/gerardscript.log
+npm install --silent websocket &>> /var/log/gerardscript.log
 eend $?
 
 echo "Downloading bootstrap..." >> /var/log/gerardscript.log
