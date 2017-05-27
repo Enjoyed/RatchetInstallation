@@ -1,0 +1,22 @@
+h3 {
+	text-align:center;
+}
+p {
+	margin-top:0.3vw;
+	text-align:center;
+	font-size:calc(1vw + 1vh);
+}
+.row {
+	padding: 6px;
+}
+span {
+	font-size:calc(1vw + 1vh);
+	font-weight: bold;
+}
+.biggerrow {
+	border-style:none;
+}
+.lastrow {
+	border-style: none;
+	border-width: 0px 0px 0px 0px;
+}
