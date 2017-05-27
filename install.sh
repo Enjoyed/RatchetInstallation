@@ -1,7 +1,11 @@
 #!/bin/bash
 if [ -f "/etc/init.d/functions.sh" ]; then
 . /etc/init.d/functions.sh
+else
+ScriptLoc=$(readlink -f "$0")
+chmod ugo+x "$ScriptLoc"
 fi
+
 PWD=$(pwd)
 touch /var/log/gerardscript.log
 echo "Initializing Gerard Script (domotica project) by Gerard Fleque"
@@ -20,24 +24,18 @@ else
         exit 1
 fi
 printf '[\e[1;32mDONE\e[0m]\n'
-printf 'Installing cool functions (eFunctions)... '
-if hash git 2>/dev/null; then
-	true
-else
-	apt-get install git
-fi
+
 
 if [ ! -f "/etc/init.d/functions.sh" ]; then
-	git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions >> /var/log/gerardscript.log
-	./opt/efunctions/install.sh >> /var/log/gerardscript.log
-	rm -rf /opt/efunctions
-	ScriptLoc=$(readlink -f "$0")
-	chmod ugo+x "$ScriptLoc"
+	printf 'Installing cool functions (eFunctions)... '
+	git clone https://github.com/marcusatbang/efunctions.git /opt/efunctions &>> /var/log/gerardscript.log
+	cd /opt/efunctions
+	./install.sh &>> /var/log/gerardscript.log
 	exec "$ScriptLoc"
 fi
 
 
-
+sleep 3
 
 echo "Executant apt-get update..." >> /var/log/gerardscript.log
 ebegin "Updating your system..."
