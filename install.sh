@@ -2,6 +2,7 @@
 if [ -f "/etc/init.d/functions.sh" ]; then
 . /etc/init.d/functions.sh
 fi
+PWD=$(pwd)
 touch /var/log/gerardscript.log
 echo "Initializing Gerard Script (domotica project) by Gerard Fleque"
 echo "Log -> /var/log/gerardscript.log"
@@ -31,6 +32,7 @@ if [ ! -f "/etc/init.d/functions.sh" ]; then
 	cd /opt/efunctions
 	./install.sh >> /var/log/gerardscript.log
 	rm -rf /opt/efunctions
+	chmod ugo+x $PWD/install.sh
 	ScriptLoc=$(readlink -f "$0")
 	printf '[\e[1;32mDONE\e[0m]\n'
 	exec "$ScriptLoc"
