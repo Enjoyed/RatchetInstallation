@@ -113,10 +113,18 @@ class Chat implements MessageComponentInterface {
                                         curl_setopt($curl, CURLOPT_TIMEOUT, 2);
                                         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2);
 					$data = curl_exec($curl);
-					$json = json_decode($data,true);
-					foreach($json as $sensor => $valor){
-						$GLOBALS["dispositius"][$sensor] = $valor;
+					if ($data === FALSE) 
+					{
+						echo "Curl failed: " . curl_error($curl);
 					}
+					else
+					{
+						$json = json_decode($data,true);
+						foreach($json as $sensor => $valor){
+							$GLOBALS["dispositius"][$sensor] = $valor;
+						}
+					}
+
 				}
 			}
 			else{
