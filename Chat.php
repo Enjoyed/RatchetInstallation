@@ -99,7 +99,7 @@ class Chat implements MessageComponentInterface {
 					$data = curl_exec($curl);
 					$json = json_decode($data,true);
 					foreach($json as $sensor => $valor){
-						
+						$GLOBALS["dispositius"][$sensor] = $valor;
 					}
 				}
 			}
