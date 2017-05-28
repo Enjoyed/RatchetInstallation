@@ -3,6 +3,8 @@ namespace WebSocketGerard;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+// Initialize every sensor/actuator we have.
+// SYNTAX: <device_id>_<sensor_id>
 $GLOBALS["values"] = array(
 "d1_temperatura" => 20, "d1_led1" => 0, "d1_led2" => 0, "d1_led3" => 0, "d1_led4" => 0, "d1_led5" => 0, "d1_led6" => 0,
 "d2_temperatura" => 20, "d2_led1" => 0, "d2_led2" => 0, "d2_led3" => 0, "d2_led4" => 0, "d2_led5" => 0, "d2_led6" => 0,
@@ -12,6 +14,7 @@ $GLOBALS["values"] = array(
 "d6_temperatura" => 20, "d6_led1" => 0, "d6_led2" => 0, "d6_led3" => 0, "d6_led4" => 0, "d6_led5" => 0, "d6_led6" => 0
 );
 
+// Set our IP for each device
 $GLOBALS["dispositius"] = array(
 "d1" => "10.19.250.50",
 "d2" => "10.19.250.20",
@@ -20,36 +23,49 @@ $GLOBALS["dispositius"] = array(
 "d5" => "10.19.250.10"
 );
 
+// Simple function to check if a string is JSON
 function isJson($string) {
 	json_decode($string);
 	return (json_last_error() == JSON_ERROR_NONE);
 }
 
+// Our Class, here happens the magic
 class Chat implements MessageComponentInterface {
+	// Here we store each connection.
 	protected $clients;
-
+	// A simple construct
 	public function __construct() {
 		$this->clients = new \SplObjectStorage;
 	}
-
+	// What happens when a client opens a connection?
 	public function onOpen(ConnectionInterface $conn) {
+		// We add it to the list.
 		$this->clients->attach($conn);
+		// Encode our array with ALL sensors/actuators
 		$send = json_encode($GLOBALS["values"]);
+		// And send it to the new client connected.
 		foreach ($this->clients as $client) {
 			if ($conn == $client) {
 				$client->send($send);
 			}
 		}
+		// A simple echo to debug
 		echo "New connection! ({$conn->resourceId})\n";
 	}
+	// What happens when a client send us a message?
 	public function onMessage(ConnectionInterface $conn, $msg) {
+		// Lets count to how many will send the message, because why not?
 		$numRecv = count($this->clients) - 1;
+		// I only accept JSON messages, to evade some problems.
 		if(isJson($msg)) 
 		{
+			// Echo to how many will send new values.
 			echo sprintf("Updating values to %d client%s" . "\n"
 			,$numRecv, $numRecv == 1 ? "" : "s");
+			// Lets process the incoming message
 			$array = json_decode($msg,true);
-			if(!isset($array["incoming"]))
+			// If it doesn't 
+			if(!isset($array["incoming"]) and !isset($array["refresh"]))
 			{
 				foreach($array as $sensor => $valor) {
 					$sendValor = explode("_",$sensor);
@@ -87,7 +103,7 @@ class Chat implements MessageComponentInterface {
 					curl_close($curl);
 				}
 			}
-			elseif(!isset($array["refresh"]))
+			elseif(isset($array["refresh"]))
 			{
 				foreach($GLOBALS["dispositius"] as $dispositiu => $ip){
 					$curl = curl_init();
