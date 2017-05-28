@@ -3,9 +3,12 @@
 		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 		<meta content="utf-8" http-equiv="encoding">
 	</head>
+<!-- YAY! we use bootstrap! (but only for buttons... :c) and responsive! :D -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/custom.css">
+<!-- And jQuery! what a monster -->
 <script src="assets/js/jquery.min.js"></script>
+<!-- Are we even using bootstrap javascript? -->
 <script src="assets/js/bootstrap.min.js"></script>
 	<body>
 		<div class="container-fluid">
@@ -592,39 +595,59 @@
 			</div>
 		</div>
 	<script>
+	// Connect to our websocket server
 	var conn = new WebSocket("ws://10.19.250.1:8080");
+	// Timeout! 2 seconds, if it didn't connected;
 	setTimeout(function () {
             if (conn.readyState != 1) {
+		// Send an alert that something bad is going on.
                 alert("Cannot connect to WebSocket Service. Call the system admin.\nNOTE: Nothing you do in this webpage will work.");
             }
         }, 2000);
-
+	// On open the connection;
 	conn.onopen = function(e) {
+		// Echo that we connected! yay!
 		console.log("Connection established!");
 	};
+	// On message received
 	conn.onmessage = function(e) {
+		// Echo that we're doing something, because a loading bar was not enough!
 		console.log("Updating...");
+		// Lets parse this json
 		Data = JSON.parse(e.data);
+		// For each json
 		for (var prop in Data) {
+			// Get their respective tag by ID (sensor/actuator)
 			var element = document.getElementById(prop);
+			// Get the attribute "tipo" (a custom one! :D)
 			var type = $(element).attr("tipo");
+			// If tipo is a button (ON/OFF)
 			if(type == "onoff") {
+				// a switch! not a nintendo switch :c
 				switch(Data[prop]) {
+					// In case it's 0,
+					// Set button to OFF
 					case 0:
 						element.innerHTML = "OFF";
 						element.classList.remove("btn-success");
 						element.classList.add("btn-danger");
 						break;
+					// In case it's 1,
+					// Set button to ON
 					case 1:
 						element.innerHTML = "ON";
 						element.classList.remove("btn-danger");
 						element.classList.add("btn-success");
 						break;
+					// In case it's "0" (yes, it's different "0" to 0,
+					// Set button to OFF
 					case "0":
 						element.innerHTML = "OFF";
 						element.classList.remove("btn-success");
 						element.classList.add("btn-danger");
 						break;
+					// In case it's "1",
+					// Set button to ON
 					case "1":
 						element.innerHTML = "ON";
 						element.classList.remove("btn-danger");
@@ -632,24 +655,37 @@
 						break;
 				}
 			}
+			// In case it's an sensor (more than 0 or 1 :P)
 			else if(type == "sensor")
 			{
+				//Set the value to their HTML
 				element.innerHTML = Data[prop];
 			}
 		}
 	}
+	// A function to change Class.
 	function changeClass()
 		{
+			// Get tag ID
 			var nom = $(this).attr("id");
+			// If the HTML is "ON"
 			if(this.innerHTML == "ON"){
+				// Set value to 0
 				var valor = 0;
 			}
+			// If it's "OFF"
 			else if(this.innerHTML == "OFF"){
+				// Set to 1
 				var valor = 1;
 			}
+			// And SEND IT!
 			sendMessage(nom,valor);
+			// Change class
+			// if exists, remove
+			// if not exists, add
 			$(this).toggleClass("btn-success");
 			$(this).toggleClass("btn-danger");
+			// Dont forget to swap the html! we dont want to see red with ON!
 			if(this.innerHTML == "ON"){
 					this.innerHTML = "OFF";
 			}
@@ -657,15 +693,22 @@
 					this.innerHTML = "ON";
 			}
 		}
+	// On page load, do
 	window.onload = function()
 	{
+		// Set ALL <a> tag run a function when clicked.
 		$("a").each( function(index, element){
+			// Run changeClass() on click
 			$(this).bind("click",changeClass);
 		});
 	}
+	// The function that JSONize and sends the updated sensor/actuator to websocket. 
 	function sendMessage(text, valor) {
+		// JSONize? really? this?
 		var json = "{\"" + text + "\":" + valor + "}";
+		// Send it
 		conn.send(json);
+		// Why not echo it? :P
 		console.log(json);
 	}
 	</script>
