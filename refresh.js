@@ -1,11 +1,6 @@
 #!/usr/bin/nodejs
 var W3CWebSocket = require('websocket').w3cwebsocket;
 
-if (process.argv.length <= 2) {
-    console.log("Usage: " + __filename + " new values");
-    process.exit(-1);
-}
-
 var values = {};
 values["refresh"] = true;
 var send = JSON.stringify(values);
