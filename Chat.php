@@ -87,6 +87,22 @@ class Chat implements MessageComponentInterface {
 					curl_close($curl);
 				}
 			}
+			elseif(!isset($array["refresh"]))
+			{
+				foreach($GLOBALS["dispositius"] as $dispositiu => $ip){
+					$curl = curl_init();
+					curl_reset($curl);
+					$url_final = $ip . "/json";
+					curl_setopt($curl, CURLOPT_URL, $url_final);
+                                        curl_setopt($curl, CURLOPT_TIMEOUT, 2);
+                                        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2);
+					$data = curl_exec($curl);
+					$json = json_decode($data,true);
+					foreach($json as $sensor => $valor){
+						
+					}
+				}
+			}
 			else{
 				foreach($array as $sensor => $valor){
 					if($sensor !== "incoming"){
