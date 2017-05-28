@@ -129,6 +129,7 @@ yes | cp -rf /tmp/RatchetInstallation/composer.json /opt/websocket/composer.json
 yes | cp -rf /tmp/RatchetInstallation/server.php /opt/websocket/bin/server.php
 yes | cp -rf /tmp/RatchetInstallation/updater.js /opt/websocket/updater.js
 yes | cp -rf /tmp/RatchetInstallation/refresh.js /opt/websocket/refresh.js
+yes | cp -rf /tmp/RatchetInstallation/check.sh /opt/websocket/check.sh
 eend $?
 
 ebegin "Setting web environment..."
@@ -176,8 +177,8 @@ eend $?
 echo "Creating refresh task..." >> /var/log/gerardscript.log
 ebegin "Creating refresh task..."
 crontab -l > mycron
-echo "* * * * * nodejs /opt/websocket/refresh.js" >> mycron
-echo "* * * * * (sleep 30; nodejs /opt/websocket/refresh.js)" >> mycron
+echo "* * * * * bash /opt/websocket/check.sh" >> mycron
+echo "* * * * * (sleep 30; bash /opt/websocket/check.sh)" >> mycron
 crontab mycron
 rm mycron
 eend $?
