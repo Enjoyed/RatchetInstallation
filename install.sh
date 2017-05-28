@@ -128,6 +128,7 @@ yes | cp -rf /tmp/RatchetInstallation/Chat.php /opt/websocket/src/websocketgerar
 yes | cp -rf /tmp/RatchetInstallation/composer.json /opt/websocket/composer.json
 yes | cp -rf /tmp/RatchetInstallation/server.php /opt/websocket/bin/server.php
 yes | cp -rf /tmp/RatchetInstallation/updater.js /opt/websocket/updater.js
+yes | cp -rf /tmp/RatchetInstallation/refresh.js /opt/websocket/refresh.js
 eend $?
 
 ebegin "Setting web environment..."
@@ -170,6 +171,15 @@ eend $?
 echo "Making run on apache run..." >> /var/log/gerardscript.log
 ebegin "Making run on apache run..."
 sed -i.bak "/  start)/!{p;d;};n;n;a php -q /opt/websocket/bin/server.php &" /etc/init.d/apache2
+eend $?
+
+echo "Creating refresh task..." >> /var/log/gerardscript.log
+ebegin "Creating refresh task..."
+crontab -l > mycron
+echo "* * * * * nodejs /opt/websocket/refresh.js" >> mycron
+echo "* * * * * (sleep 30; nodejs /opt/websocket/refresh.js)" >> mycron
+crontab mycron
+rm mycron
 eend $?
 
 echo "Modifying permissions..." >> /var/log/gerardscript.log
