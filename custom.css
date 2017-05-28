@@ -1,22 +1,19 @@
+/* A simple align to make it look nice */
 h3 {
 	text-align:center;
 }
+/* A text formatting */
 p {
 	margin-top:0.3vw;
 	text-align:center;
 	font-size:calc(1vw + 1vh);
 }
+/* To make it look more separated! */
 .row {
 	padding: 1px;
 }
+/* Set span to bold! */
 span {
 	font-size:calc(1vw + 1vh);
 	font-weight: bold;
-}
-.biggerrow {
-	border-style:none;
-}
-.lastrow {
-	border-style: none;
-	border-width: 0px 0px 0px 0px;
 }
