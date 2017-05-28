@@ -78,7 +78,7 @@ class Chat implements MessageComponentInterface {
 					$data = curl_exec($curl);
 					if ($data === FALSE) 
 					{
-						echo "Curl failed: " . curl_error($curl);
+						echo "Curl failed: " . curl_error($curl) . "\n";
 						$correct = "{\"" . $sensor . "\":" . $GLOBALS["values"][$sensor] . "}";
 						foreach ($this->clients as $client) 
 						{
@@ -115,7 +115,7 @@ class Chat implements MessageComponentInterface {
 					$data = curl_exec($curl);
 					if ($data === FALSE) 
 					{
-						echo "Curl failed: " . curl_error($curl);
+						echo "Could not get ::$ip:: Curl failed: " . curl_error($curl) . "\n";
 					}
 					else
 					{
@@ -123,6 +123,7 @@ class Chat implements MessageComponentInterface {
 						foreach($json as $sensor => $valor){
 							$GLOBALS["dispositius"][$sensor] = $valor;
 						}
+						echo "Updated $sensor\n";
 					}
 
 				}
