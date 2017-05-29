@@ -5,20 +5,29 @@ use Ratchet\ConnectionInterface;
 // Initialize every sensor/actuator we have.
 // SYNTAX: <device_id>_<sensor_id>
 $GLOBALS["values"] = array(
-"d1_temperatura" => 20, "d1_led1" => 0, 
-"d2_temperatura" => 20, "d2_led1" => 0, 
-"d3_temperatura" => 20, "d3_led1" => 0, 
-"d4_temperatura" => 20, "d4_led1" => 0, 
-"d5_temperatura" => 20, "d5_led1" => 0, 
-"d6_temperatura" => 20, "d6_led1" => 0,);
+/* Dispositiu d1 */
+	"d1_led1" => 0,
+/* Dispositiu d2 */
+	"d2_led1" => 0,
+/* Dispositiu d3 */
+	"d2_led1" => 0,
+/* Dispositiu R1 */
+	"r1_r1" => 0,
+	"r1_r2" => 0,
+	"r1_r3" => 0,
+	"r1_r4" => 0,
+	"r1_r5" => 0,
+	"r1_r6" => 0,
+	"r1_r7" => 0,
+	"r1_r8" => 0);
 // Set our IP for each device
 $GLOBALS["dispositius"] = array(
-"d1" => "10.19.250.50",
-"d2" => "10.19.250.20",
-"d3" => "10.19.250.30",
-"d4" => "10.19.250.40",
-"d5" => "10.19.250.10"
+"r1" => "10.19.250.100", /* IP r1 */ 
+"d1" => "10.19.250.110", /* IP d1 */
+"d2" => "10.19.250.120", /* IP d2 */
+"d3" => "10.19.250.130"  /* IP d3 */
 );
+
 
 // Simple function to check if a string is JSON
 function isJson($string) {
