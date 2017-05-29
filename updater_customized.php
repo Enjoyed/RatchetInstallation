@@ -11,8 +11,7 @@ $accepted = array(
 	"127.0.0.1",
 	"10.19.250.100",
 	"10.19.250.110",
-	"10.19.250.120",
-	"10.19.250.130"
+	"10.19.250.120"
 );
 // Check if it is valid
 if(in_array($connecting_as, $accepted))
