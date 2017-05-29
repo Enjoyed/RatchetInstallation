@@ -6,11 +6,9 @@ use Ratchet\ConnectionInterface;
 // SYNTAX: <device_id>_<sensor_id>
 $GLOBALS["values"] = array(
 /* Dispositiu d1 */
-	"d1_led1" => 0,
+	"d1_luminositat" => 0,
 /* Dispositiu d2 */
-	"d2_led1" => 0,
-/* Dispositiu d3 */
-	"d2_led1" => 0,
+	"d2_temperatura" => 0,
 /* Dispositiu R1 */
 	"r1_r1" => 0,
 	"r1_r2" => 0,
@@ -25,7 +23,6 @@ $GLOBALS["dispositius"] = array(
 "r1" => "10.19.250.100", /* IP r1 */ 
 "d1" => "10.19.250.110", /* IP d1 */
 "d2" => "10.19.250.120", /* IP d2 */
-"d3" => "10.19.250.130"  /* IP d3 */
 );
 
 
