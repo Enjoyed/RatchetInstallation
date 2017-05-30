@@ -187,4 +187,5 @@ echo "Modifying permissions..." >> /var/log/gerardscript.log
 ebegin "Modifying permissions..."
 chmod 775 -R /opt/websocket
 chmod 775 -R /var/www/html/
+chown www-data:www-data -R /var/www/html
 eend $?
