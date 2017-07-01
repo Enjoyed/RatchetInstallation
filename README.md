@@ -1,5 +1,5 @@
 # RatchetInstallation
-Installation script used in my End of Course Project.
+Installation script used in my End of Course Project. U can find what it is in the powerpoint <Projecte v0.2> (in catalan)
 
 # Installation:
 ```
