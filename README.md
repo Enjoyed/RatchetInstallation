@@ -8,4 +8,4 @@ cd RatchetInstallation
 sudo ./install.sh
 ```
 
-# I will not support this project anymore. Will continue doing similar things, but not this one.
+# I will not support this project.
